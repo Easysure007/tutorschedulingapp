@@ -1,0 +1,4 @@
+name,studentId,email,password,groupId,role
+CSV Student 1,94839,o.isijola1@gmail.com,somerandom,Chemistry group,student
+CSV Student 2,93048,k.ijisola2@gmail.com,demopass,Chemistry group,student
+CSV Student 3,9403,kp.ijisola@gmail.com,demopass,Chemistry group,student
