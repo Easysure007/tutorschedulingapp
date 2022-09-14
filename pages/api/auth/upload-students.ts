@@ -92,9 +92,9 @@ apiRoute.post(async (req: AugmentedNextApiRequest, res: NextApiResponse) => {
 			/**
 			 * THE @ts-ignore DIRECTIVE WAS USED AS THE CSV LIBRARY IS OLD.
 			 */
-			//@ts-ignore
 			await worksheet.eachRow(
 				{ includeEmpty: true },
+				//@ts-ignore
 				async function (row: ExcelRowValue, rowNumber) {
 					if (rowNumber !== 1) {
 						/**
