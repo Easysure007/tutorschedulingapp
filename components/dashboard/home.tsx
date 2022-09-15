@@ -104,7 +104,7 @@ export default function HomeDashboard({ auth }: any) {
 	}, [homeTabs]);
 
 	const { greeting } = useHomeHook();
-	console.log(allGroup);
+
 	return (
 		<>
 			<Navbar />

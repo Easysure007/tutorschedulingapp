@@ -65,11 +65,7 @@ export default function Navbar() {
 								borderRadius={"10px"}
 								onClick={() => {
 									localStorage.clear();
-									if (user?.role === "admin") {
-										router.push("/auth/module_cordinator/login");
-									} else {
-										router.push("/auth/student");
-									}
+									router.push("/");
 								}}
 							>
 								Log out

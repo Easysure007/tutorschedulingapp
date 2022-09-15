@@ -14,7 +14,7 @@ import { useAuthHook } from "../../../components/auth/auth-hook";
 const UserLogin = () => {
 	const { student, handleStudentId, handleStudentLogin } = useAuthHook();
 
-	const { allGroup } = useGroupHook();
+	const { allGroup, loading } = useGroupHook();
 
 	return (
 		<div className="mainDiv">
@@ -38,9 +38,15 @@ const UserLogin = () => {
 						height={"50px"}
 						onChange={(e) => handleStudentId(e.target.value, "group")}
 					>
-						{allGroup?.data?.map((group: any) => (
-							<option value={group._id}>{group.group}</option>
-						))}
+						{loading ? (
+							<option value="">Loading Groups...</option>
+						) : (
+							<>
+								{allGroup?.data?.map((group: any) => (
+									<option value={group._id}>{group.group}</option>
+								))}
+							</>
+						)}
 					</Select>
 					<Spacer height={"20px"} />
 					<TextField

@@ -451,25 +451,27 @@ export default function PeopleHome({ auth }: any) {
 																				>
 																					{item.note}
 																				</Box>
-																				<Box
-																					display="flex"
-																					mt="1"
-																					justifyContent="flex-end"
-																				>
-																					<Text
-																						mr="8"
-																						fontSize="12px"
-																						onClick={() => {
-																							setNote(item.note);
-																							setEditNote(true);
-																						}}
-																						cursor="pointer"
-																						color="blue.400"
-																						textDecoration={"underline"}
+																				{item.instructorId === user?.id && (
+																					<Box
+																						display="flex"
+																						mt="1"
+																						justifyContent="flex-end"
 																					>
-																						Edit
-																					</Text>
-																				</Box>
+																						<Text
+																							mr="8"
+																							fontSize="12px"
+																							onClick={() => {
+																								setNote(item.note);
+																								setEditNote(true);
+																							}}
+																							cursor="pointer"
+																							color="blue.400"
+																							textDecoration={"underline"}
+																						>
+																							Edit
+																						</Text>
+																					</Box>
+																				)}
 																			</Box>
 																		) : (
 																			<>

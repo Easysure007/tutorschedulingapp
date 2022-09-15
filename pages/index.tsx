@@ -1,11 +1,10 @@
 import type { NextPage } from "next";
-
-import UserLogin from "./auth/student";
+import { HomePage } from "../components/home";
 
 const Home: NextPage = () => {
 	return (
 		<div>
-			<UserLogin />
+			<HomePage />
 		</div>
 	);
 };

@@ -16,7 +16,7 @@ export const HomePage = () => {
 					<Text>Please tell us who you are.</Text>
 					<Flex mt="20" justifyContent={"space-between"}>
 						<Button
-							onClick={() => router.push("/auth/user")}
+							onClick={() => router.push("/auth/student")}
 							variant={"outline"}
 							color="purple.200"
 							borderRadius={"0px"}
