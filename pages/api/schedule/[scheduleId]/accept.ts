@@ -44,7 +44,7 @@ export default async function handler(
                 return res.status(400).send({
                     message: `Possible duplicate`,
                     status: 400,
-                    error: `schedule is not available. This schedule might have been accepted for a different group`,
+                    error: `schedule is not available. This schedule might have been cancelled or accepted for a different group`,
                 })
             }
 

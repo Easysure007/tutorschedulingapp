@@ -34,11 +34,18 @@ export const CoordinatorPage = ({ searchValue }: IProps) => {
 		handleCreateStudentData,
 		handleSubmit,
 		createStudentData,
+
 		setCreateStudentData,
 	} = useStudentHook();
 
-	const { allCordinators, loading } = useCordinatorHook();
+	const { allCordinators, loading, deactivateUser } = useCordinatorHook();
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const {
+		isOpen: isCordinatorOpen,
+		onOpen: onCordinatorOpen,
+		onClose: onCordinatorClose,
+	} = useDisclosure();
 	const [editable, setEditable] = useState(false);
 	const [deleteUser, setDeleteUser] = useState({
 		name: "",
@@ -89,15 +96,18 @@ export const CoordinatorPage = ({ searchValue }: IProps) => {
 							<Th>S/N</Th>
 							<Th>Name</Th>
 							<Th>Email</Th>
+							<Th>Action</Th>
 						</Tr>
 					</Thead>
 					<Tbody>
 						{!loading &&
 							allCordinators
-								?.filter((cordinator: any) =>
-									cordinator.name
-										.toLowerCase()
-										.includes(searchValue.toLowerCase())
+								?.filter(
+									(cordinator: any) =>
+										cordinator.name
+											.toLowerCase()
+											.includes(searchValue.toLowerCase()) &&
+										cordinator?.status?.toLowerCase() !== "inactive"
 								)
 								.map((cordinator: any, idx: any) => (
 									<Tr>
@@ -109,6 +119,23 @@ export const CoordinatorPage = ({ searchValue }: IProps) => {
 										</Td>
 										<Td>
 											<Text>{cordinator.email}</Text>
+										</Td>
+										<Td>
+											<Button
+												background="white"
+												textDecoration={"underline"}
+												color="red.500"
+												fontWeight={400}
+												onClick={() => {
+													onCordinatorOpen();
+													setDeleteUser({
+														name: cordinator.name,
+														id: cordinator._id,
+													});
+												}}
+											>
+												Deactivate
+											</Button>
 										</Td>
 									</Tr>
 								))}
@@ -136,6 +163,33 @@ export const CoordinatorPage = ({ searchValue }: IProps) => {
 					</Box>
 				</>
 			)}
+			<Modal isOpen={isCordinatorOpen} onClose={onCordinatorClose}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Deactivate Coordinator</ModalHeader>
+					<ModalBody>
+						<Text>
+							Are you sure you want to deactivate{"  "}
+							<span style={{ fontWeight: "bold" }}>{deleteUser.name}</span> ?
+						</Text>
+						<ModalFooter>
+							<Button colorScheme="blue" mr={3} onClick={onCordinatorClose}>
+								Close
+							</Button>
+							<Button
+								colorScheme={"blue"}
+								disabled={disabled}
+								onClick={(e: any) => {
+									onCordinatorClose();
+									deactivateUser(deleteUser.id, "inactive");
+								}}
+							>
+								Deactivate
+							</Button>
+						</ModalFooter>
+					</ModalBody>
+				</ModalContent>
+			</Modal>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>

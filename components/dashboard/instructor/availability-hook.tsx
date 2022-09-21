@@ -44,6 +44,34 @@ export const useAvailability = () => {
 			toast(error?.response?.data?.error || error?.response?.data?.message);
 		}
 	};
+	const [deleteAvail, setDeleteAvail] = useState({
+		name: "",
+		id: "",
+	});
+	const deleteAvailability = async () => {
+		try {
+			const res = await axios.patch(
+				`/api/availability/${deleteAvail.id}`,
+				{
+					status: "cancelled",
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Headers": "x-access-token",
+						"X-AccessToken": ` ${token}`,
+					},
+				}
+			);
+			res && setReload(true);
+			res && toast("Availability Deleted");
+			setLoading(false);
+		} catch (error: any) {
+			setLoading(false);
+			toast(error?.response?.data?.error || error?.response?.data?.message);
+		}
+	};
+
 	const getTutorAvailability = useCallback(async () => {
 		setLoading(true);
 		try {
@@ -55,7 +83,9 @@ export const useAvailability = () => {
 				},
 			});
 			if (reload) setReload(false);
-			setGetTutorAvail(res?.data?.data);
+			setGetTutorAvail(
+				res?.data?.data?.filter((item: any) => item.status !== "cancelled")
+			);
 			setLoading(false);
 		} catch (error: any) {
 			setLoading(false);
@@ -74,7 +104,10 @@ export const useAvailability = () => {
 		submitLoading,
 		getTutorAvail,
 		loading,
+		deleteAvailability,
 		setDuration,
+		deleteAvail,
+		setDeleteAvail,
 		handleCreateAvailability,
 	};
 };

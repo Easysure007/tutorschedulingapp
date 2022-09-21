@@ -42,7 +42,7 @@ const UserLogin = () => {
 							<option value="">Loading Groups...</option>
 						) : (
 							<>
-								{allGroup?.data?.map((group: any) => (
+								{allGroup?.map((group: any) => (
 									<option value={group._id}>{group.group}</option>
 								))}
 							</>

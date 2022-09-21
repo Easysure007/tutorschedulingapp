@@ -31,10 +31,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 		function (error) {
 			if (
 				error.response.status === 401 &&
-				!excludedPaths.includes(router.pathname)
+				excludedPaths.includes(router.pathname) === false
 			) {
 				if (auth?.user?.role === "instructor") {
-					window.location.assign("/auth/user");
+					window.location.assign("/auth/student");
 				} else {
 					window.location.assign("/auth/login");
 				}

@@ -10,6 +10,7 @@ export const useStudentHook = () => {
 	const [allStudents, setAllStudents] = useState<any>([]);
 	const [loading, setLoading] = useState(false);
 	const [reload, setReload] = useState(false);
+
 	const {
 		DataStore: {
 			reload: storeReload,
@@ -18,6 +19,7 @@ export const useStudentHook = () => {
 			updateUser: updateUserFromLocalStorage,
 		},
 	} = useStoreContext();
+
 	const router = useRouter();
 	const [createStudentData, setCreateStudentData] = useState({
 		registrationNumber: "",

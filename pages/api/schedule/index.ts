@@ -6,6 +6,8 @@ import * as yup from 'yup';
 import { Helpers } from "../../../lib/helpers";
 import { ObjectId } from "mongodb";
 import { PENDING } from "../../../lib/constants/status.constant";
+import MailUtility from "../../../lib/mail.helper";
+import UserModel from "../../../models/User.model";
 
 export default async function handler(
     req: NextApiRequest,
@@ -74,13 +76,13 @@ export default async function handler(
                 *   STUDENTS SHOULD NOT BE ABLE TO SCHEDULE AN AVAILABILITY THAT HAS ALREADY BEEN
                 *   ACCEPTED, CANCELLED OR FULFILLED
                  */
-                // if (availability?.status !== PENDING) {
-                //     return res.status(400).send({
-                //         message: "unavailabile",
-                //         error: "This appointment time is not available for booking",
-                //         status: 400,
-                //     });
-                // }
+                if (availability?.status !== PENDING) {
+                    return res.status(400).send({
+                        message: "unavailabile",
+                        error: "This appointment time is not available for booking",
+                        status: 400,
+                    });
+                }
 
                 /* 
                 *   THE LOGGED IN USER MUST BE A STUDENT TO BOOK A SCHEDULE 
@@ -121,6 +123,20 @@ export default async function handler(
                     groupId: student.groupId,
                     status: PENDING,
 
+                });
+
+                await MailUtility.sendEmail({
+                    email: availability?.instructor?.email,
+                    template: '../../../../email-templates/new-schedule.ejs',
+                    data: {
+                        password: "D#1sdkNe;930",
+                        role: "Instructor",
+                        name: "Chinedu Ukpe"
+                    },
+                    options: {
+                        from: "Support",
+                        subject: "New Schedule"
+                    }
                 });
 
                 res.status(201).send({

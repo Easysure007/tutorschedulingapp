@@ -1,7 +1,9 @@
 import { Stack } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { useGroupHook } from "./group.hook";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { ArrowUpDownIcon } from "@chakra-ui/icons";
+import { getGroup } from "./group.requests";
 import { IProps } from "../students/students-page";
 import { TextField } from "../../../UI/TextField/textfield";
 import {
@@ -13,11 +15,6 @@ import {
 	ModalContent,
 	ModalHeader,
 	Flex,
-	Accordion,
-	AccordionItem,
-	AccordionButton,
-	AccordionPanel,
-	AccordionIcon,
 	ModalFooter,
 	ModalBody,
 	Modal,
@@ -30,15 +27,15 @@ import {
 export const GroupPage = ({ searchValue }: IProps) => {
 	const {
 		allGroup,
-
 		handleGroupName,
 		loading,
-
 		success,
 		setSuccess,
+		deleteGroup,
 		createGroup,
 		handleCreateGroup,
 	} = useGroupHook();
+
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	useEffect(() => {
@@ -47,6 +44,7 @@ export const GroupPage = ({ searchValue }: IProps) => {
 			setSuccess(false);
 		}
 	}, [success]);
+
 	return (
 		<Box
 			borderLeft="1px solid #ededf2"
@@ -74,13 +72,18 @@ export const GroupPage = ({ searchValue }: IProps) => {
 				<TableContainer border={"1px solid #ededf2"} width="100%">
 					<Table variant="simple" size="lg">
 						<Tbody>
-							{allGroup?.data
-								?.filter((grp: any) =>
-									grp.group.toLowerCase().includes(searchValue.toLowerCase())
-								)
-								.map((group: any, idx: any) => (
-									<Groups group={group} key={idx} />
-								))}
+							{!loading &&
+								allGroup
+									?.filter(
+										(grp: any) =>
+											grp.group
+												.toLowerCase()
+												.includes(searchValue.toLowerCase()) &&
+											grp?.status !== "inactive"
+									)
+									.map((group: any, idx: any) => (
+										<Groups group={group} key={idx} deleteGroup={deleteGroup} />
+									))}
 						</Tbody>
 					</Table>
 					{loading && (
@@ -91,7 +94,13 @@ export const GroupPage = ({ searchValue }: IProps) => {
 								justifyContent={"center"}
 								alignItems="center"
 							>
-								<Spinner />
+								<Spinner
+									thickness="4px"
+									speed="0.65s"
+									emptyColor="gray.200"
+									color="blue.500"
+									size="xl"
+								/>
 							</Box>
 						</>
 					)}
@@ -117,7 +126,17 @@ export const GroupPage = ({ searchValue }: IProps) => {
 							onClick={() => handleCreateGroup()}
 							disabled={createGroup.trim().length === 0}
 						>
-							{loading ? <Spinner /> : "Submit"}
+							{loading ? (
+								<Spinner
+									thickness="4px"
+									speed="0.65s"
+									emptyColor="gray.200"
+									color="blue.500"
+									size="sm"
+								/>
+							) : (
+								"Submit"
+							)}
 						</Button>
 					</ModalFooter>
 				</ModalContent>
@@ -126,38 +145,86 @@ export const GroupPage = ({ searchValue }: IProps) => {
 	);
 };
 
-const Groups = ({ group }: any) => {
-	const { group: students, viewGroup, loading } = useGroupHook();
+const Groups = ({ group, deleteGroup }: any) => {
+	const [loading, setLoading] = useState(false);
+	const [open, setOpen] = useState(false);
+	const [students, setGroup] = useState([]);
+
+	const viewGroup = useCallback(async (id: string) => {
+		setLoading(true);
+		try {
+			const res: any = await getGroup(id, true);
+			setGroup(res.data.data);
+			setLoading(false);
+		} catch (error) {
+			setLoading(false);
+		}
+	}, []);
+	// const deleteGroup = useCallback(async (id: string) => {
+	// 	setLoading(true);
+	// 	try {
+	// 		setLoading(false);
+	// 	} catch {
+	// 		setLoading(false);
+	// 	}
+	// }, []);
+
 	return (
-		<Accordion width="100%">
-			<AccordionItem>
+		<Box
+			width="100%"
+			padding="8px"
+			borderBottom="1px solid #ededf2"
+			cursor="pointer"
+		>
+			<Box>
 				<h2>
-					<AccordionButton onClick={() => viewGroup(group._id)}>
+					<Box display="flex" justifyContent="space-between">
 						<Box flex="1" textAlign="left" fontWeight={800}>
 							{group.group}
 						</Box>
-						<AccordionIcon />
-					</AccordionButton>
-				</h2>
-				<AccordionPanel pb={4}>
-					<Box display={"flex"} alignItems="center" justifyContent={"center"}>
-						{!loading && students?.length > 0 ? (
-							students?.map((student: any) => (
-								<Box>
-									<Flex>
-										Name:
-										<Box ml={10}>{student.name}</Box>
-									</Flex>
-								</Box>
-							))
-						) : loading ? (
-							<Spinner />
-						) : (
-							<div>No student found</div>
-						)}
+						<Box display="flex" alignItems="center">
+							<Text
+								fontSize="12px"
+								color="red.800"
+								onClick={() => deleteGroup(group._id)}
+								fontWeight={600}
+								mr="5"
+								textDecoration="underline"
+							>
+								Delete Group
+							</Text>
+							<div
+								onClick={() => {
+									viewGroup(group._id);
+									setOpen(!open);
+								}}
+							>
+								<ArrowUpDownIcon color={"purple.800"} fontSize="12px" />
+							</div>
+						</Box>
 					</Box>
-				</AccordionPanel>
-			</AccordionItem>
-		</Accordion>
+				</h2>
+				{open && (
+					<Box py={4}>
+						<Box display={"flex"} justifyContent={"space-between"}>
+							{!loading && students?.length > 0 ? (
+								students?.map((student: any) => (
+									<Box>
+										<Flex>
+											Name:
+											<Box ml={10}>{student.name}</Box>
+										</Flex>
+									</Box>
+								))
+							) : loading ? (
+								<Spinner />
+							) : (
+								<div>No student found</div>
+							)}
+						</Box>
+					</Box>
+				)}
+			</Box>
+		</Box>
 	);
 };

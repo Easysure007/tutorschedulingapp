@@ -3,6 +3,7 @@ import {
 	getGroup,
 	createGroup as createGroups,
 } from "./group.requests";
+import axios from "axios";
 import { useStoreContext } from "../../../../pages/_app";
 import { useState, useCallback, useEffect } from "react";
 
@@ -30,7 +31,9 @@ export const useGroupHook = () => {
 		setLoading(true);
 		try {
 			const res: any = await getAllGroups();
-			setAllGroup(res.data);
+			setAllGroup(
+				res.data.data?.filter((item: any) => item.status !== "inactive")
+			);
 			setGroups(res.data.data);
 			setLoading(false);
 
@@ -46,16 +49,33 @@ export const useGroupHook = () => {
 		getGroups();
 	}, [getGroups]);
 
-	const viewGroup = async (id: string) => {
+	const deleteGroup = useCallback(async (id: string) => {
 		setLoading(true);
 		try {
-			const res: any = await getGroup(id, true);
-			setGroup(res.data.data);
-			setLoading(false);
-		} catch (error) {
+			const res: any = await axios.patch(`/api/group/${id}`, {
+				status: "inactive",
+			});
+			res && setSuccess(true);
+
+			res && setLoading(false);
+		} catch {
 			setLoading(false);
 		}
-	};
+	}, []);
+
+	const viewGroup = useCallback(
+		async (id: string) => {
+			setLoading(true);
+			try {
+				const res: any = await getGroup(id, true);
+				setGroup(res.data.data);
+				setLoading(false);
+			} catch (error) {
+				setLoading(false);
+			}
+		},
+		[setGroup]
+	);
 
 	const handleCreateGroup = async () => {
 		setLoading(true);
@@ -77,6 +97,7 @@ export const useGroupHook = () => {
 		setViewSpecificGroup,
 		loading,
 		setSuccess,
+		deleteGroup,
 		createGroup,
 		viewGroup,
 		group,

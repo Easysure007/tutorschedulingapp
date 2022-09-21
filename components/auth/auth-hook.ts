@@ -164,7 +164,7 @@ export const useAuthHook = () => {
 		try {
 			const res = await axios.post(`/api/auth/login/student`, {
 				studentId: student.registrationNumber,
-				groupName: student.groupId,
+				groupId: student.groupId,
 				password: student.password,
 			});
 

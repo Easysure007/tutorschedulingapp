@@ -25,10 +25,18 @@ import {
 export default function ViewAvailability() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const {
+		isOpen: deleteOpen,
+		onOpen: deleteOnOpen,
+		onClose: onDeleteClose,
+	} = useDisclosure();
+	const {
 		dateTime,
 		setDateTime,
 		duration,
+		deleteAvailability,
 		getTutorAvail,
+		deleteAvail,
+		setDeleteAvail,
 		setDuration,
 		submitLoading,
 		handleCreateAvailability,
@@ -41,10 +49,19 @@ export default function ViewAvailability() {
 		});
 		onOpen();
 	};
+	console.log(deleteAvail);
+	const onEventClick = (data: any) => {
+		console.log(data);
+		deleteOnOpen();
+		setDeleteAvail({
+			name: data.startAt,
+			id: data.id,
+		});
+	};
 
 	const InstructorEvents = getTutorAvail?.map((item: any, idx: any) => {
 		return {
-			id: idx,
+			id: item._id,
 			startAt: item.availabilityDate,
 			endAt: item.endDate,
 			timezoneStartAt: "Europe/Berlin",
@@ -73,6 +90,7 @@ export default function ViewAvailability() {
 					selectedView={CalendarView.WEEK}
 					showWeekNumbers={true}
 					disabledDragging={true}
+					onEventClick={onEventClick}
 					events={InstructorEvents}
 					onNewEventClick={onNewEventClick}
 				/>
@@ -124,6 +142,39 @@ export default function ViewAvailability() {
 								<Spinner color="white" thickness="3px" speed="0.65s" />
 							) : (
 								"Continue"
+							)}
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+			<Modal isOpen={deleteOpen} onClose={onDeleteClose}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Delete Availability</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>
+						<Text fontSize="14px">
+							To Delete your availability, click confirm to continue
+						</Text>
+
+						<Spacer height="20px" />
+					</ModalBody>
+
+					<ModalFooter>
+						<Button colorScheme="blue" mr={3} onClick={onDeleteClose}>
+							Close
+						</Button>
+						<Button
+							colorScheme={"purple"}
+							onClick={(e: any) => {
+								deleteAvailability();
+								onDeleteClose();
+							}}
+						>
+							{submitLoading ? (
+								<Spinner color="white" thickness="3px" speed="0.65s" />
+							) : (
+								"Confirm"
 							)}
 						</Button>
 					</ModalFooter>

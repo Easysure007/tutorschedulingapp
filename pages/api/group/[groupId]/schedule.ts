@@ -20,7 +20,7 @@ export default async function handler(
                 data: [],
             })
         }
-        const schedules: Array<UserModel> = await db.collection('schedules').find({ groupId: new ObjectId(groupId) }).toArray()
+        const schedules: Array<UserModel> = await db.collection('schedules').find({ groupId }).toArray()
         return res.json({
             message: "Students",
             status: 200,

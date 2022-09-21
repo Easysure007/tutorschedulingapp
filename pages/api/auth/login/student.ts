@@ -11,6 +11,9 @@ import { ServerConfig } from '../../../../lib/config';
 import { Helpers } from '../../../../lib/helpers';
 import UserModel from '../../../../models/User.model';
 import StudentModel from '../../../../models/student.model';
+import { GroupModel } from '../../../../models/Group.model';
+import { ObjectId } from 'mongodb';
+import { ACTIVE } from '../../../../lib/constants/status.constant';
 
 export default async function handler(
     req: NextApiRequest,
@@ -22,27 +25,40 @@ export default async function handler(
         const {
             studentId,
             password,
-            groupName
+            groupId
         } = req.body;
 
         let studentValidationSchema = yup.object().shape({
             studentId: yup.string().required(),
             password: yup.string().min(8).required(),
-            groupName: yup.string().required(),
+            groupId: yup.string().required(),
         });
 
-        return studentValidationSchema.validate({ studentId, password, groupName })
+        return studentValidationSchema.validate({ studentId, password, groupId })
             .then(async (validated) => {
                 const { studentId } = validated;
                 const userExists: StudentModel = await db.collection('users').findOne({ registrationNumber: studentId });
 
-                if (!userExists || !await bcrypt.compare(password, userExists.password)) {
+                if (!userExists || !await bcrypt.compare(password, userExists.password) || groupId != userExists.groupId) {
                     return res.status(401).send({
                         message: "Authentication failed",
-                        error: "Invalid student ID  or password provided",
+                        error: "Invalid student ID, password or group provided",
                         status: 401,
                     })
                 }
+
+                const group: GroupModel = await db.collection('groups').findOne({ _id: new ObjectId(userExists.groupId) })
+
+                console.log(group)
+
+                if (group?.status !== ACTIVE) {
+                    return res.status(401).send({
+                        message: "Authentication failed",
+                        error: "Your group is inactive. Contact your coordinator",
+                        status: 401,
+                    })
+                }
+
                 const authUser: AuthUserDTO = {
                     id: userExists._id,
                     name: userExists.name,

@@ -114,10 +114,9 @@ export default function HomeDashboard({ auth }: any) {
 						{greeting},{" "}
 						{user
 							? user?.role === "student"
-								? allGroup?.data?.filter(
-										(grp: any) => grp._id === user?.groupId
-								  )?.[0]?.group
-									? allGroup?.data?.filter(
+								? allGroup?.filter((grp: any) => grp._id === user?.groupId)?.[0]
+										?.group
+									? allGroup?.filter(
 											(grp: any) => grp._id === user?.groupId
 									  )?.[0]?.group
 									: ""

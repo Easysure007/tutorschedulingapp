@@ -103,8 +103,8 @@ export default function PeopleHome({ auth }: any) {
 			timezoneEndAt: "Europe/Berlin",
 			summary: `${
 				user?.role !== "student"
-					? allGroup?.data?.filter((grp: any) => grp?._id === item?.groupId)[0]
-							.group
+					? allGroup?.filter((grp: any) => grp?._id === item?.groupId)?.[0]
+							?.group
 					: item?.availability?.instructor?.name + "  " + "Class"
 			} ${item.status?.toLowerCase() === "rejected" ? "(Rejected)" : ""}`,
 			color:
@@ -165,7 +165,7 @@ export default function PeopleHome({ auth }: any) {
 												: "Select Group"}
 										</MenuButton>
 										<MenuList background="white">
-											{allGroup?.data?.map((item: any) => (
+											{allGroup?.map((item: any) => (
 												<MenuItem
 													onClick={() => {
 														setSelectedGroup(item.group);
@@ -227,7 +227,7 @@ export default function PeopleHome({ auth }: any) {
 													: "Select Group"}
 											</MenuButton>
 											<MenuList background="white">
-												{allGroup?.data?.map((item: any) => (
+												{allGroup?.map((item: any) => (
 													<MenuItem
 														onClick={() => {
 															setSelectedGroup(item.group);
@@ -316,9 +316,9 @@ export default function PeopleHome({ auth }: any) {
 																textTransform="capitalize"
 															>
 																{
-																	allGroup?.data?.filter(
+																	allGroup?.filter(
 																		(grp: any) => grp?._id === item?.groupId
-																	)[0].group
+																	)?.[0]?.group
 																}{" "}
 																Pending Class
 															</Text>
@@ -350,9 +350,9 @@ export default function PeopleHome({ auth }: any) {
 																	for{" "}
 																	<span style={{ fontWeight: 800 }}>
 																		{
-																			allGroup?.data?.filter(
+																			allGroup?.filter(
 																				(grp: any) => grp?._id === item?.groupId
-																			)[0].group
+																			)?.[0]?.group
 																		}
 																	</span>
 																	.
@@ -391,9 +391,9 @@ export default function PeopleHome({ auth }: any) {
 																textTransform="capitalize"
 															>
 																{
-																	allGroup?.data?.filter(
+																	allGroup?.filter(
 																		(grp: any) => grp?._id === item?.groupId
-																	)[0].group
+																	)?.[0]?.group
 																}{" "}
 																Class
 															</Text>
@@ -422,9 +422,9 @@ export default function PeopleHome({ auth }: any) {
 																for{" "}
 																<span style={{ fontWeight: 800 }}>
 																	{
-																		allGroup?.data?.filter(
+																		allGroup?.filter(
 																			(grp: any) => grp?._id === item?.groupId
-																		)[0].group
+																		)?.[0]?.group
 																	}
 																</span>
 																.
@@ -703,7 +703,7 @@ export default function PeopleHome({ auth }: any) {
 																	textTransform="capitalize"
 																>
 																	{
-																		allGroup?.data?.filter(
+																		allGroup?.filter(
 																			(grp: any) => grp?._id === item?.groupId
 																		)[0]?.group
 																	}{" "}
@@ -717,7 +717,7 @@ export default function PeopleHome({ auth }: any) {
 																<Box mt="10">
 																	<Text>
 																		{
-																			allGroup?.data?.filter(
+																			allGroup?.filter(
 																				(grp: any) => grp?._id === item?.groupId
 																			)[0]?.group
 																		}{" "}
@@ -758,7 +758,7 @@ export default function PeopleHome({ auth }: any) {
 																	textTransform="capitalize"
 																>
 																	{
-																		allGroup?.data?.filter(
+																		allGroup?.filter(
 																			(grp: any) => grp?._id === item?.groupId
 																		)[0].group
 																	}{" "}
@@ -769,7 +769,7 @@ export default function PeopleHome({ auth }: any) {
 																)}
 																<Text my="5">
 																	{
-																		allGroup?.data?.filter(
+																		allGroup?.filter(
 																			(grp: any) => grp?._id === item?.groupId
 																		)[0]?.group
 																	}
@@ -841,7 +841,7 @@ export default function PeopleHome({ auth }: any) {
 																	textTransform="capitalize"
 																>
 																	{
-																		allGroup?.data?.filter(
+																		allGroup?.filter(
 																			(grp: any) => grp?._id === item?.groupId
 																		)[0]?.group
 																	}{" "}

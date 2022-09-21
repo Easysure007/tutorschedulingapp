@@ -3,6 +3,7 @@ import { HTTPErrorDTO, HTTPSuccessDTO } from "../../../dtos/HTTP.dto";
 import { GET, POST } from "../../../lib/constants/http.methods.constant";
 import * as yup from 'yup';
 import { connectToDatabase } from "../../../lib/mongodb";
+import { ACTIVE } from "../../../lib/constants/status.constant";
 
 export default async function handler(
     req: NextApiRequest,
@@ -49,7 +50,8 @@ export default async function handler(
                 }
 
                 const result = await db.collection('groups').insertOne({
-                    group
+                    group,
+                    status: ACTIVE
                 });
 
                 return res.json({

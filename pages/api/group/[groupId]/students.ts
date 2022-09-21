@@ -15,12 +15,12 @@ export default async function handler(
     if (req.method === GET) {
         if (!Helpers.isValidObjectId(groupId)) {
             return res.json({
-                message: "Students",
+                message: "Invalid Group ID",
                 status: 200,
                 data: [],
             })
         }
-        const students: Array<UserModel> = await db.collection('users').find({ groupId: new ObjectId(groupId), role: "student" }).toArray()
+        const students: Array<UserModel> = await db.collection('users').find({ groupId }).toArray()
         return res.json({
             message: "Students",
             status: 200,

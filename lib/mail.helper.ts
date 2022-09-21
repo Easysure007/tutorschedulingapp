@@ -37,13 +37,12 @@ export default class MailUtility {
         data,
         options
     }: SendMailOptions) {
-
         // send mail with defined transport object
         /**
          * RENDER THE FILE INTO HTML STRING
          */
         const renderedTemplate: string = await ejs.renderFile(path.join(__dirname, template), data);
-
+        console.log(process.env.SMTP_USER, process.env.SMTP_PASSWORD)
         const info = await this.transporter.sendMail({
             from: `"${options?.from || "Admin"}" <support@scheduleapp.com>`, // sender address
             to: email, // list of receivers

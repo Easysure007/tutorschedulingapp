@@ -7,7 +7,7 @@ import { Helpers } from "../../../lib/helpers";
 import { ObjectId } from "mongodb";
 import { CreateAvailabilityDTO } from "../../../dtos/CreateAvailability.dto";
 import { DateTime } from 'luxon'
-import { PENDING } from "../../../lib/constants/status.constant";
+import { ACTIVE, PENDING } from "../../../lib/constants/status.constant";
 
 export default async function handler(
     req: NextApiRequest,
@@ -52,7 +52,7 @@ export default async function handler(
                 const availabilityCollection = db.collection('availabilities');
 
                 /* FIND THE CLOSEST TIME TO THAT AND MAKE SURE IT DOESN'T OVERLAP */
-                const beforeTimeSpace = DateTime.fromISO(availabilityDate).minus({ minutes: duration }).toISO();
+                // const beforeTimeSpace = DateTime.fromISO(availabilityDate).minus({ minutes: duration }).toISO();
                 const afterTimeSpace = DateTime.fromISO(availabilityDate).plus({ minutes: duration }).toISO();
                 console.log(DateTime.fromISO(availabilityDate).toFormat('h:mm'))
 

@@ -130,7 +130,7 @@ export default function ManageBookings() {
 												))}
 											</Select> */}
 
-										<FormLabel>Select Group</FormLabel>
+										{/* <FormLabel>Select Group</FormLabel> */}
 										{/* <Select onChange={(e) => setGroupId(e.target.value)}>
 												{allGroup?.data?.map((item: any) => (
 													<option value={item?._id}>{item.group}</option>

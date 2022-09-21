@@ -74,7 +74,7 @@ export const StudentPage = ({ searchValue }: IProps) => {
 		onOpen: uploadOnOpen,
 		onClose: uploadClose,
 	} = useDisclosure();
-	console.log(uploadedFile);
+
 	return (
 		<Box
 			borderLeft="1px solid #ededf2"
@@ -167,7 +167,7 @@ export const StudentPage = ({ searchValue }: IProps) => {
 													</Td>
 													<Td>
 														<Text>
-															{allGroup?.data
+															{allGroup
 																?.filter(
 																	(item: any) => item._id === student.groupId
 																)
@@ -359,7 +359,7 @@ export const StudentPage = ({ searchValue }: IProps) => {
 								handleCreateStudentData("group", e.target.value)
 							}
 						>
-							{allGroup?.data?.map((grp: any) => (
+							{allGroup?.map((grp: any) => (
 								<option value={grp?._id}>{grp.group}</option>
 							))}
 						</Select>
