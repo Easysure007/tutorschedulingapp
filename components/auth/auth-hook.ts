@@ -47,32 +47,6 @@ export const useAuthHook = () => {
 
 	const [resetPasswordEmail, setResetPasswordEmail] = useState("");
 
-	const handleSubmit = async (e: any) => {
-		setLoading(true);
-		e.preventDefault();
-		try {
-			const res = await axios.post(`/api/auth/register`, values);
-			setLoading(false);
-			location.assign("/home");
-			if (res?.data?.error) {
-				toast(res?.data?.error);
-			} else {
-				location.assign("/home");
-				const data = res?.data?.data;
-				const filterData = {
-					accessToken: data.accessToken,
-					user: data.user,
-				};
-				localStorage.setItem("auth", JSON.stringify(filterData));
-			}
-			localStorage.setItem("auth", JSON.stringify(res?.data));
-		} catch (error: any) {
-			console.log(error);
-			toast(error?.response?.data?.error || error?.response?.data?.message);
-			setLoading(false);
-		}
-	};
-
 	const updateUserProfile = async (e: any, data: any) => {
 		setLoading(true);
 		e.preventDefault();
@@ -151,6 +125,8 @@ export const useAuthHook = () => {
 		}
 	};
 
+	// HANLDES THE LOGIC FOR UPDATING THE LOGIN VALUES WHEN A USER INPUTS EITHIER EMAIL OR PASSWORD
+
 	const handleInput = (type: "email" | "password", value: string) => {
 		if (type === "email") {
 			setEmail(value);
@@ -158,6 +134,8 @@ export const useAuthHook = () => {
 			setPassword(value);
 		}
 	};
+
+	// FUNCTION USED TO CALL THE POST LOGIN  METHOD TO THE BACKEND PASSING IN THE USER GROUP_ID, PASSWORD AND STUDENT ID
 
 	const handleStudentLogin = async (e: any) => {
 		e.preventDefault();
@@ -186,6 +164,9 @@ export const useAuthHook = () => {
 		}
 	};
 
+	// FUNCTION USED TO CALL THE POST FORGOT PASSWORD ENDPOINT, TRIGGERS WHEN A USER CLICKS 'CONTINUE' ON FORGOT PASSWORD PAGE
+	// SENDS THE RESET PASSWORD CODE TO THE USER EMAIL
+
 	const handleForgotPassword = async (e: any) => {
 		setLoading(true);
 		e.preventDefault();
@@ -206,6 +187,7 @@ export const useAuthHook = () => {
 			setLoading(false);
 		}
 	};
+	// FUNCTION USED TO CALL THE POST RESET PASSWORD ENDPOINT, TRIGGERS AFTER A USER INPUTS THE CODE SENT TO EMAIL, NEW PASSWORD
 
 	const handleResetPassword = async () => {
 		if (resetValues.password !== resetValues.passwordConfirmation) {
@@ -234,7 +216,12 @@ export const useAuthHook = () => {
 			}
 		}
 	};
+
+	// DISABLES THE LOGIN BUTTON WHEN THE EMAIL AND PASSWORD INPUT FIELD ARE EMPTY
+
 	const disabled = email.trim().length === 0 || password.trim().length === 0;
+
+	// EXPORTS ALL THE METHODS AND FUNCTIONS SO IT CAN BE USED ROUND THE APPLICATION
 
 	return {
 		email,
@@ -253,7 +240,7 @@ export const useAuthHook = () => {
 		handleStudentId,
 		handleForgotPassword,
 		handleStudentLogin,
-		handleSubmit,
+
 		handleInput,
 	};
 };

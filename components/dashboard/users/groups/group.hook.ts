@@ -27,6 +27,8 @@ export const useGroupHook = () => {
 		DataStore: { setGroups },
 	} = useStoreContext();
 
+	// FUNCTION USED TO GET ALL GROUPS IN THE APPLICATION
+
 	const getGroups = useCallback(async () => {
 		setLoading(true);
 		try {
@@ -45,9 +47,13 @@ export const useGroupHook = () => {
 		}
 	}, [setGroups, success]);
 
+	// HOOK THAT RUNS THE GET GROUP FUNCTION UPON PAGE LOAD
+
 	useEffect(() => {
 		getGroups();
 	}, [getGroups]);
+
+	// FUNCTION USED TO DELETE A GROUP
 
 	const deleteGroup = useCallback(async (id: string) => {
 		setLoading(true);
@@ -63,6 +69,8 @@ export const useGroupHook = () => {
 		}
 	}, []);
 
+	// FUNCTION USED TO VIEW A GROUP DETAILS
+
 	const viewGroup = useCallback(
 		async (id: string) => {
 			setLoading(true);
@@ -76,6 +84,8 @@ export const useGroupHook = () => {
 		},
 		[setGroup]
 	);
+
+	// FUNCTION USED TO CREATE A GROUP
 
 	const handleCreateGroup = async () => {
 		setLoading(true);

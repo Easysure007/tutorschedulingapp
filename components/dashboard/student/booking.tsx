@@ -42,6 +42,8 @@ export default function StudentBooking() {
 		handleCreateSchedule,
 	} = useStudentBookingHook();
 
+	// CREATES A MAP OF ALL THE INSTRUCTORS AVAILABILITY SO IT CAN BE USED ON THE CALENDER
+
 	const InstructorEvents = getTutorAvail?.map((item: any, idx: any) => {
 		return {
 			id: item._id,
@@ -56,8 +58,11 @@ export default function StudentBooking() {
 			calendarID: "work",
 		};
 	});
+	// TRIGGERS WHEN A UNOCCUPIED DATE IS CLICKED ON THE CALENDER
 
 	const onEventClick = (data: any) => {
+		// SETS A NEW AVAILABILITY FOR THE TUTOR
+
 		setAvailabilityID(data.id);
 	};
 	return (

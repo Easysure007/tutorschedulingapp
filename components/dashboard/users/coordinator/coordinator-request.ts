@@ -8,6 +8,8 @@ interface IcreateStudent {
 	registrationNumber: string;
 }
 
+// ENDPOINT TO GET ALL CORDINATORS
+
 export const getAllCordinators = async () => {
 	try {
 		const res = await axios.get("/api/coordinator", {
@@ -22,6 +24,8 @@ export const getAllCordinators = async () => {
 		toast(error?.message);
 	}
 };
+
+// ENDPOINT TO GET A PARTICULAR STUDENT SCHEDULE OR GENERAL INFORMATION
 
 export const getStudent = async (id: string, schedules?: boolean) => {
 	try {
@@ -38,6 +42,8 @@ export const getStudent = async (id: string, schedules?: boolean) => {
 		toast(error?.message);
 	}
 };
+
+// ENDPOINT TO CREATE A STUDENT
 
 export const createStudent = async (data: IcreateStudent) => {
 	try {

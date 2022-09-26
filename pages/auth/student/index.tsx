@@ -14,6 +14,8 @@ import { useAuthHook } from "../../../components/auth/auth-hook";
 const UserLogin = () => {
 	const { student, handleStudentId, handleStudentLogin } = useAuthHook();
 
+	// Get all functions and methods from the Group hook to get all groups in the system
+
 	const { allGroup, loading } = useGroupHook();
 
 	return (

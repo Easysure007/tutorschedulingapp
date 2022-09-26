@@ -11,9 +11,12 @@ export const useTutorHook = () => {
 	const [groupId, setGroupId] = useState("");
 	const [editReload, setEditReload] = useState(false);
 	const [loading, setLoading] = useState(false);
+
 	const {
 		DataStore: { reload, setReload },
 	} = useStoreContext();
+
+	// GET ALL TUTORS FUNCTION
 
 	const getInstructor = useCallback(async () => {
 		setLoading(true);
@@ -27,6 +30,8 @@ export const useTutorHook = () => {
 			setLoading(false);
 		}
 	}, [reload, setReload]);
+
+	// REACT HOOKS USED TO CALL THE GET INSTRUCTORS FUNCTION UPON PAGE LOAD
 
 	useEffect(() => {
 		if (editReload === true) setEditReload(false);
@@ -51,6 +56,7 @@ export const useTutorHook = () => {
 			setLoading(false);
 		}
 	};
+
 	// FUNCTION TO CREATE SCHEDULES
 
 	const createSchedules = async () => {

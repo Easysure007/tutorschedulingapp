@@ -12,6 +12,9 @@ export const useStudentBookingHook = () => {
 	const {
 		DataStore: { token },
 	} = useStoreContext();
+
+	// USED TO GET A TUTOR AVAILABILITY BY PASSING IN THE TUTOR ID
+
 	const getTutorAvailability = useCallback(async (id: string) => {
 		setLoading(true);
 		try {
@@ -30,6 +33,9 @@ export const useStudentBookingHook = () => {
 			toast(error?.response?.data?.error || error?.response?.data?.message);
 		}
 	}, []);
+
+	// USED BY TUTORS TO CREATE A SCHEDULE FOR THEMSELVES
+
 	const handleCreateSchedule = async () => {
 		try {
 			const res = await axios.post(

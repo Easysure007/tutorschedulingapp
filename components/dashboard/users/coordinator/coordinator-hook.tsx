@@ -11,6 +11,8 @@ export const useCordinatorHook = () => {
 		DataStore: { reload, setReload, token },
 	} = useStoreContext();
 
+	// FUNCTION USED TO CALL THE ENDPOINT REQUEST TO GET ALL CORDINATORS
+
 	const getCordinators = useCallback(async () => {
 		setLoading(true);
 		if (reload) setReload(false);
@@ -24,9 +26,14 @@ export const useCordinatorHook = () => {
 		}
 	}, [reload]);
 
+	// HOOK THAT RUNS THE GET CORDINATORS FUNCTION UPON PAGE LOAD
+
 	useEffect(() => {
 		getCordinators();
 	}, [getCordinators]);
+
+	// FUNCTION USED TO  DEACTIVATE A CORDINATOR
+
 	const deactivateUser = async (
 		userId: string,
 		status: "active" | "inactive"

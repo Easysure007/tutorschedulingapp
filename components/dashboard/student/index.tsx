@@ -3,6 +3,8 @@ import { Flex } from "@chakra-ui/react";
 import StudentBooking from "./booking";
 
 export default function StudentPage() {
+	// SIDE NAV STATE ON THE MANAGE AVAILABILITY PAGE SEEN BY TUTORS
+
 	const [nav] = useState({
 		booking: true,
 		availability: false,

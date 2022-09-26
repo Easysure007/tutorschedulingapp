@@ -21,6 +21,7 @@ export const useStudentHook = () => {
 	} = useStoreContext();
 
 	const router = useRouter();
+
 	const [createStudentData, setCreateStudentData] = useState({
 		registrationNumber: "",
 		name: "",
@@ -29,6 +30,9 @@ export const useStudentHook = () => {
 		passwordConfirmation: "",
 		groupId: "",
 	});
+
+	// USED TO GET ALL STUDENTS ON THE APPLICATION
+
 	const getStudents = useCallback(async () => {
 		setLoading(true);
 		if (reload) setReload(false);
@@ -42,6 +46,8 @@ export const useStudentHook = () => {
 	}, [reload]);
 
 	const disabled = false;
+
+	// HANDLES THE LOGIC FOR THE INPUT FIELD VALUE USED TO CREATE A STUDENT  DEPENDING ON THE INPUT FIELD
 
 	const handleCreateStudentData = (
 		type:
@@ -85,9 +91,13 @@ export const useStudentHook = () => {
 	};
 	const [uploadedFile, setUploadedFile] = useState<any>();
 
+	// HOOK USED TO CALL THE GET STUDENTS UPON THE PAGE LOAD
+
 	useEffect(() => {
 		getStudents();
 	}, [getStudents]);
+
+	// HANDLE UPLOADING STUDENTS INTO THE APPLICATION
 
 	const handleUploadStudents = async () => {
 		var bodyFormData = new FormData();
@@ -106,6 +116,8 @@ export const useStudentHook = () => {
 			console.log(error);
 		}
 	};
+
+	// HANDLE UPDATING  A USER DETAILS
 
 	const updateUser = async (data: any) => {
 		setLoading(true);
@@ -133,6 +145,9 @@ export const useStudentHook = () => {
 			setLoading(false);
 		}
 	};
+
+	// HANDLE EDITING A USER DETAILS
+
 	const editStudent = async (data: any, userId: string) => {
 		setLoading(true);
 		try {
@@ -149,6 +164,9 @@ export const useStudentHook = () => {
 			setLoading(false);
 		}
 	};
+
+	// HANDLE DEACTIVATING USER USED BY MODULE COORDINATOR
+
 	const deactivateUser = async (
 		userId: string,
 		status: "active" | "inactive"
@@ -186,6 +204,8 @@ export const useStudentHook = () => {
 			setLoading(false);
 		}
 	};
+
+	// HANDLE CREATING A USER BY MODULE COORDINATOR
 
 	const handleSubmit = async (e: any, type: any) => {
 		setLoading(true);

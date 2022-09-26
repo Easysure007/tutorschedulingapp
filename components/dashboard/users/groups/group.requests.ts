@@ -12,6 +12,8 @@ interface IcreateGroup {
 	registrationNumber: string;
 }
 
+// REQUEST ENDPOINT TO GET ALL GROUPS
+
 export const getAllGroups = async () => {
 	try {
 		const res = await axios.get("/api/group", {
@@ -24,6 +26,7 @@ export const getAllGroups = async () => {
 		toast(error?.message);
 	}
 };
+// REQUEST ENDPOINT TO GET A PARTICULAR GROUP
 
 export const getGroup = async (id: string, students?: boolean) => {
 	try {
@@ -40,6 +43,8 @@ export const getGroup = async (id: string, students?: boolean) => {
 		toast(error?.message);
 	}
 };
+
+// REQUEST ENDPOINT TO CREATE A  GROUP
 
 export const createGroup = async (group: string) => {
 	try {

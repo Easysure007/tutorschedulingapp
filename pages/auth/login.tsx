@@ -9,6 +9,7 @@ import { useAuthHook } from "../../components/auth/auth-hook";
 
 const Login = () => {
 	const router = useRouter();
+	// Get all functions and methods from the Authentication hook
 	const { handleLogin, handleInput, disabled, loading } = useAuthHook();
 
 	return (

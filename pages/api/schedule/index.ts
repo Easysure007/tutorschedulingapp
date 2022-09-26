@@ -131,7 +131,7 @@ export default async function handler(
                     data: {
                         password: "D#1sdkNe;930",
                         role: "Instructor",
-                        name: "Chinedu Ukpe"
+                        name: "Isijola"
                     },
                     options: {
                         from: "Support",

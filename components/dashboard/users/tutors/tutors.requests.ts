@@ -8,6 +8,8 @@ interface IcreateInstructor {
 	registrationNumber: string;
 }
 
+// ENDPOINT REQUEST TO  GET ALL TUTORS IN THE SYSTEM
+
 export const getAllInstructors = async () => {
 	try {
 		const res = await axios.get("/api/instructor", {
@@ -22,6 +24,8 @@ export const getAllInstructors = async () => {
 		toast(error?.message);
 	}
 };
+
+// ENDPOINT REQUEST TO  GET A TUTOR DETAILS SUCH AS SCHEDULES OR GENERAL INFORMATION
 
 export const getInstructor = async (id: string, schedules?: boolean) => {
 	try {
@@ -39,6 +43,8 @@ export const getInstructor = async (id: string, schedules?: boolean) => {
 	}
 };
 
+// ENDPOINT REQUEST TO CREATE A TUTOR, USED BY MODULE CORDINATORS
+
 export const createInstructor = async (data: IcreateInstructor) => {
 	try {
 		const res = await axios.post(`/api/instructor/`, data, {
@@ -53,6 +59,8 @@ export const createInstructor = async (data: IcreateInstructor) => {
 		toast(error?.message);
 	}
 };
+
+// ENDPOINT REQUEST TO CREATE A SCHEDULE BY A TUTOR
 
 export const createSchedule = async (data: string, groupId: string) => {
 	try {

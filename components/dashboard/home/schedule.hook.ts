@@ -4,14 +4,20 @@ import { useEffect, useState, useCallback } from "react";
 import { useStoreContext } from "../../../pages/_app";
 
 export const useScheduleHook = () => {
+	// GETS DATA FROM THE STORE
+
 	const {
 		DataStore: { token, user, reload, setReload },
 	} = useStoreContext();
+
 	const [getAllSchedule, setGetAllSchedule] = useState<any>([]);
 	const [selectedSchedule, setSelectedSchedule] = useState<any>([]);
 	const [loading, setLoading] = useState(false);
 	const [editNote, setEditNote] = useState(false);
 	const [note, setNote] = useState("");
+
+	// FUNCTION USED TO  FETCH ALL SCHEDULES FOR A LOGGED IN STUDENT FROM THE BACKEND
+
 	const scheduleAvailability = useCallback(async () => {
 		try {
 			const res = await axios.get(`/api/group/${user?.groupId}/schedule`, {
@@ -26,6 +32,9 @@ export const useScheduleHook = () => {
 			toast(error?.message);
 		}
 	}, []);
+
+	// FUNCTION USED TO  FETCH ALL SCHEDULES FOR A PARTICULAR GROUP FROM THE BACKEND , THE FUNCTION ACCEPTS A GROUP ID
+
 	const getCordinatorGroup = async (id: string) => {
 		setLoading(true);
 		try {
@@ -44,9 +53,14 @@ export const useScheduleHook = () => {
 			setLoading(false);
 		}
 	};
+
+	// HOOK USED TO CALL THE GET STUDENT SCHEDULES UPON PAGE LOAD WHEN THE USER IS A STUDENT
+
 	useEffect(() => {
 		if (user?.role === "student") scheduleAvailability();
 	}, [scheduleAvailability, user?.role]);
+
+	// FUNCTION USED TO  FETCH ALL SCHEDULES FOR A TUTOR FROM THE BACKEND
 
 	const getTutorSchedule = useCallback(async () => {
 		setLoading(true);
@@ -68,9 +82,14 @@ export const useScheduleHook = () => {
 		}
 	}, [reload]);
 
+	// HOOK USED TO CALL THE GET STUDENT SCHEDULES UPON PAGE LOAD WHEN THE USER IS A TUTOR
+
 	useEffect(() => {
 		if (user?.role === "instructor") getTutorSchedule();
 	}, [getTutorSchedule, user?.role]);
+
+	// FUNCTION FOR TUTORS  USED TO ACCEPT OR REJECT  SCHEDULES
+
 	const handleAcceptSchedule = async (
 		id: string,
 		status: "accept" | "reject"
@@ -95,6 +114,9 @@ export const useScheduleHook = () => {
 			toast(error?.response?.data?.error || error?.response?.data?.message);
 		}
 	};
+
+	// FUNCTION FOR TUTORS USED TO CREATE OR UPDATE NOTES
+
 	const handleNote = async (id: string, edit: boolean) => {
 		try {
 			if (edit) {
@@ -164,6 +186,7 @@ export const useScheduleHook = () => {
 			toast(error?.response?.data?.error || error?.response?.data?.message);
 		}
 	};
+
 	return {
 		getAllSchedule,
 		handleAcceptSchedule,

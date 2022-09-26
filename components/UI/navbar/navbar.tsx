@@ -25,7 +25,9 @@ import {
 export default function Navbar() {
 	const router = useRouter();
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
 	const [editProfile, setEditProfile] = useState(false);
+
 	const {
 		DataStore: { user },
 	} = useStoreContext();
@@ -73,6 +75,7 @@ export default function Navbar() {
 						</MenuList>
 					</Menu>
 				</Flex>
+				{/* MODAL POP UP UI TO EITHIER EDIT YOUR PROFILE OR CHANGE YOUR PASSWORD */}
 				<Modal isOpen={isOpen} onClose={onClose}>
 					<ModalOverlay />
 					<ModalContent>

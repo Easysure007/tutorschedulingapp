@@ -11,13 +11,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  const { db } = await connectToDatabase()
+  await db.collection('availabilities').remove({})
+  await db.collection('schedules').remove({})
   await MailUtility.sendEmail({
     email: 'geefive3@gmail.com',
     template: '../../../../email-templates/test.ejs',
     data: {
       password: "D#1sdkNe;930",
       role: "Instructor",
-      name: "Chinedu Ukpe"
+      name: "Isijola"
     },
     options: {
       from: "Support",

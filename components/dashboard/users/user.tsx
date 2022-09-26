@@ -21,6 +21,8 @@ export default function User({}: any) {
 		DataStore: { user, token },
 	} = useStoreContext();
 
+	// FUNCTION THAT HANDLES THE NAVIGATION OF PAGES ON THE APPLICATION
+
 	const HomeNavigation = useMemo(() => {
 		const navigations = [
 			{
@@ -120,6 +122,7 @@ export default function User({}: any) {
 						/>
 					</InputGroup>
 				</Box>
+				{/* RENDERS A PAGE DEPENDING ON WHAT IS SELECTED BY A USER */}
 				{nav.students && <StudentPage searchValue={searchValue} />}
 				{nav.groups && <GroupPage searchValue={searchValue} />}
 				{nav.tutor && <TutorPage searchValue={searchValue} />}

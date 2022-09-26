@@ -9,15 +9,18 @@ export const EditProfile = () => {
 		DataStore: { user },
 	} = useStoreContext();
 	const [updateName, setUpdateName] = useState(true);
+
 	const { updateUser, loading, createStudentData, handleCreateStudentData } =
 		useStudentHook();
 
+	// FETCHES THE LOGGED IN USER NAME AND UPDATES THE EDIT PROFILE INPUT FIELD FOR FULL NAME
 	useMemo(() => {
 		if (user?.name && updateName) {
 			handleCreateStudentData("name", user?.name);
 			setUpdateName(false);
 		}
 	}, [user, handleCreateStudentData]);
+
 	return (
 		<>
 			<Box>

@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 
 export const useHomeHook = () => {
 	const [greeting, setGreeting] = useState("");
+
+	//  HOOK USED TO CALCULATE THE DATE AND TIME IN ORDER TO  RETURN THE APPROPRIATE GREETING
+
 	useEffect(() => {
 		const date = new Date();
 		const currentHour = date.getHours();
